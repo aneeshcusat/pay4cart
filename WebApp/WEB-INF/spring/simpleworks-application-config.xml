@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+ 
+   <context:property-placeholder location="classpath:properties/simpleWorks-application-default.properties, classpath:properties/simpleWorks-application-${bopsprofile}.properties" ignore-unresolvable="true" />
+ 
+   <context:component-scan base-package="com.simpleworks.store" />
+   
+   <bean id="simpleWorksApplicationConfiguration" class="com.simpleworks.store.configuration.SimpleWorksApplicationConfiguration" init-method="initialize">
+   		<property name="protocol" value="${simpleWorks.protocol}"/>
+   		<property name="hostName" value="${simpleWorks.hostName}"/>
+   		<property name="portNumber" value="${simpleWorks.portNumber}"/>
+   </bean>
+   
+   <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+    <property name="attributes">
+        <map>
+            <entry key="applicationConfiguraion" value-ref="simpleWorksApplicationConfiguration"/>
+        </map>
+    </property>
+	</bean>
+
+</beans>
